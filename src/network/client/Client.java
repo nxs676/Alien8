@@ -1,12 +1,10 @@
 package network.client;
 
-import network.server.ServerReceiver;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class Client implements Runnable {
 
@@ -38,6 +36,7 @@ public class Client implements Runnable {
         try {
             socket = new Socket(host, port);
             receiver = new ClientReceiver(new ObjectInputStream(socket.getInputStream()));
+            sender = new ClientSender(new ObjectOutputStream(socket.getOutputStream()));
             new Thread(this).start();
             startThreads();
         } catch (ConnectException e) {

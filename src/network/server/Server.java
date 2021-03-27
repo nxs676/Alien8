@@ -13,8 +13,6 @@ public class Server implements Runnable{
     private int port;
     private ServerSocket serverSocket;
     private boolean running = false;
-    private ServerSender sender;
-    private ServerReceiver receiver;
     private GameState game;
 
     public Server(int port) throws IOException {
@@ -30,12 +28,6 @@ public class Server implements Runnable{
 
     public void startServer() {
         new Thread(this).start();
-        startThreads();
-    }
-
-    public void startThreads() {
-        new Thread(sender).start();
-        new Thread(receiver).start();
     }
 
     @Override
@@ -47,10 +39,6 @@ public class Server implements Runnable{
             try {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
-                if(clientSocket.isConnected())
-                System.out.println("Client with address " + clientSocket.getRemoteSocketAddress() + " has connected.");
-                receiver = new ServerReceiver(new ObjectInputStream(clientSocket.getInputStream()));
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,10 +49,9 @@ public class Server implements Runnable{
 
     public void closeServer() {
         running = false;
-
         try {
             serverSocket.close();
-        }catch(IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
     }

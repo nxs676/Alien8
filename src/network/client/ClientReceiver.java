@@ -18,9 +18,7 @@ public class ClientReceiver implements Runnable {
         while(true) {
             try {
                 GameState game = (GameState) in.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
