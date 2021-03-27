@@ -1,6 +1,6 @@
 package network.server;
 
-import game.GameInput;
+import game.Message;
 import game.GameState;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -13,7 +13,7 @@ public class ClientHandler implements Runnable {
     private ObjectInputStream in;
     private ObjectOutputStream out;
     GameState game;
-    GameInput input;
+    Message input;
     private int id;
 
     public ClientHandler(Socket socket, int id) throws IOException {
@@ -32,7 +32,7 @@ public class ClientHandler implements Runnable {
     public void run() {
         while(socket.isConnected()) {
             try {
-                input = (GameInput) in.readObject();
+                input = (Message) in.readObject();
 
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

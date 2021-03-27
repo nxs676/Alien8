@@ -1,6 +1,6 @@
 package network.client;
 
-import game.GameInput;
+import game.Message;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 public class ClientSender implements Runnable {
 
     private ObjectOutputStream out;
-    GameInput input;
+    Message input;
 
 
     public ClientSender(ObjectOutputStream out) {
