@@ -3,7 +3,6 @@ package network.server;
 import game.GameState;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -14,9 +13,11 @@ public class Server implements Runnable{
     private ServerSocket serverSocket;
     private boolean running = false;
     private GameState game;
+    private int id = 0;
 
     public Server(int port) throws IOException {
         this.port = port;
+        new Thread(this).start();
 
         try {
             serverSocket = new ServerSocket(port);
@@ -24,10 +25,6 @@ public class Server implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void startServer() {
-        new Thread(this).start();
     }
 
     @Override
@@ -38,16 +35,17 @@ public class Server implements Runnable{
         while (running) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                ClientHandler clientHandler = new ClientHandler(clientSocket, id);
+                id++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        closeServer();
+        close();
     }
 
-    public void closeServer() {
+    public void close() {
         running = false;
         try {
             serverSocket.close();

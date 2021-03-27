@@ -11,8 +11,9 @@ public class Client implements Runnable {
     private String host;
     private int port;
     private Socket socket;
-    ClientSender sender;
-    ClientReceiver receiver;
+    private ClientSender sender;
+    private ClientReceiver receiver;
+    private int id;
 
 
     private boolean running;
@@ -59,10 +60,10 @@ public class Client implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        closeClient();
+        close();
     }
 
-    public void closeClient() {
+    public void close() {
         try {
             running = false;
             socket.close();

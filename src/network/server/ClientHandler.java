@@ -14,9 +14,11 @@ public class ClientHandler implements Runnable {
     private ObjectOutputStream out;
     GameState game;
     GameInput input;
+    private int id;
 
-    public ClientHandler(Socket socket) throws IOException {
+    public ClientHandler(Socket socket, int id) throws IOException {
         this.socket = socket;
+        new Thread(this).start();
 
         try {
             in = new ObjectInputStream(socket.getInputStream());
@@ -41,6 +43,7 @@ public class ClientHandler implements Runnable {
     private void send(GameState game) {
         try {
             out.writeObject(game);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

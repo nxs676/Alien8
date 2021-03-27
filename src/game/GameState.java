@@ -38,7 +38,6 @@ public class GameState implements Serializable {
 
     public static void main(String[] args) throws IOException {
         Server server = new Server(10004);
-        server.startServer();
         new GameState();
     }
 }

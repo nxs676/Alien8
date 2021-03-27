@@ -11,6 +11,7 @@ public class ClientReceiver implements Runnable {
 
     public ClientReceiver(ObjectInputStream in) {
         this.in = in;
+        new Thread(this).start();
     }
 
     @Override
@@ -21,7 +22,17 @@ public class ClientReceiver implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
+            try {
+                close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
+
+    private void close() throws IOException {
+        in.close();
+    }
+
+
 }
